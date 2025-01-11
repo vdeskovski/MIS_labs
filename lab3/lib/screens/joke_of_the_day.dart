@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lab3/models/joke.dart';
+import 'package:lab3/screens/login_screen.dart';
 import 'package:lab3/services/api_services.dart';
 
 import '../services/firestore_service.dart';
@@ -37,8 +39,13 @@ class _JokeOfTheDayState extends State<JokeOfTheDay> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (ctx) => JokeTypeListScreen()));
+              if (FirebaseAuth.instance.currentUser != null) {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (ctx) => JokeTypeListScreen()));
+              } else {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (ctx) => const LoginScreen()));
+              }
             },
             icon: const Icon(Icons.home),
           )
